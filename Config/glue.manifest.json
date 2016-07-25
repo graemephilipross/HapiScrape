@@ -1,0 +1,20 @@
+{
+  "server": {},
+  "connections": [
+    {
+      "port": 3000,
+      "labels": ["api"]
+    }
+  ],
+  "registrations": [
+    {
+      "plugin": {
+        "register": "./Scraper/index",
+        "select": ["api"],
+        "routes": {
+          "prefix": "/api"
+        }
+      }
+    }
+  ]
+}
