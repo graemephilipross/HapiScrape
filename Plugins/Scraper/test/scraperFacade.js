@@ -12,16 +12,26 @@ const mockPayload = {addressLine1: "203 Addycombe Terrace",
                      postcode: "ne65ty"};
 
 describe('isVirginAvailable', function () {
+
+    let sandbox = null;
+
+    beforeEach(function () {
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(function () {
+        sandbox.restore();
+    });
     
     it('should return isVirginAvailable true', function(done) {
 
-        sinon.stub(virginAddressLookup, 'formatAddressLikeVirgin', function() {
+        sandbox.stub(virginAddressLookup, 'formatAddressLikeVirgin', function() {
             return {addressLine1: "203 ADDYCOMBE TERRACE",
                     city: "NEWCASTLE UPON TYNE",
                     postcode: "NE65TY"};
         });
 
-        sinon.stub(virginAddressLookup, 'postcodeLookup', function () {
+        sandbox.stub(virginAddressLookup, 'postcodeLookup', function () {
             return Promise.resolve([{
                 addressLine1: "203 ADDYCOMBE TERRACE",
                 city: "NEWCASTLE UPON TYNE",
@@ -29,7 +39,7 @@ describe('isVirginAvailable', function () {
             }]);
         });
 
-        sinon.stub(virginAddressLookup, 'matchAddressToVirginLookups', function () {
+        sandbox.stub(virginAddressLookup, 'matchAddressToVirginLookups', function () {
             return {matchFound: true,
                     tolerance: 1,
                     address: {
@@ -39,12 +49,12 @@ describe('isVirginAvailable', function () {
                     }};
         });
 
-        sinon.stub(virginAddressLookup, 'convertAddressToVirginString', function () {
+        sandbox.stub(virginAddressLookup, 'convertAddressToVirginString', function () {
             return {address: "203 ADDYCOMBE TERRACE, NEWCASTLE UPON TYNE, NE6 5TY",
                     postcode: "NE6 5TY"};
         });
 
-        sinon.stub(scraper, 'scrape', function () {
+        sandbox.stub(scraper, 'scrape', function () {
             return Promise.resolve(true);
         });
 
@@ -54,6 +64,23 @@ describe('isVirginAvailable', function () {
                 done();
             });
     });
+
+    it('should return isVirginAvailable false - unable to format address', function(done) {
+        this.timeout(10000);
+        sandbox.stub(virginAddressLookup, 'formatAddressLikeVirgin', function() {
+            return {addressLine1: "dfhg",
+                    city: "fgh",
+                    postcode: "dfghdfgh"};
+        });
+
+        scraperFacade.isVirginAvailable(mockPayload)
+            .then(function(result) {
+                expect(result).to.equal(false);
+                done();
+            });
+
+    });
+
 });
 
 
