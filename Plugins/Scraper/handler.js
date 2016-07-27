@@ -20,7 +20,8 @@ exports.virginAvailability = function (request, reply) {
 
     scraperFacade.isVirginAvailable(address)
            .then(result => reply({isVirginAvailable: result}).code(200))
-           .catch(result => reply({isVirginAvailable: result}).code(200));
+           .catch(result => reply({isVirginAvailable: false,
+                                   data: result}).code(200));
 };
 
 exports.virginAvailabilityFormattedAddress = function (request, reply) {

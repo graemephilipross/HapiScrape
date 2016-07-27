@@ -58,7 +58,6 @@ exports.postcodeLookup = function (postcode) {
 };
 
 const exactAddressMatch = function(address, virginAddress) {
-    //console.log(virginAddress.addressLine1 == address.addressLine1);
 
     return address.addressLine1 === virginAddress.addressLine1 &&
            address.city === virginAddress.city &&
@@ -67,7 +66,8 @@ const exactAddressMatch = function(address, virginAddress) {
 
 const fuzzyAddressMatch = function(address, virginAddress) {
 
-    const fuzzyToleranceThreshold = 0.99;
+    const fuzzyToleranceThresholdLower = 0.95;
+    const fuzzyToleranceThresholdUpper = 1;
     const addressline1Fuzzy = fuzzySet([virginAddress.addressLine1]);
     const addressline1FuzzyResult = addressline1Fuzzy.get(address.addressLine1);
     const cityFuzzy = fuzzySet([virginAddress.city]);
@@ -75,11 +75,9 @@ const fuzzyAddressMatch = function(address, virginAddress) {
     const postcodeFuzzy = fuzzySet([virginAddress.postcode]);
     const postcodeFuzzyResult = postcodeFuzzy.get(address.postcode);
 
-    const matchFound = addressline1FuzzyResult[0][0] >= fuzzyToleranceThreshold &&
-                   cityFuzzyResult[0][0] >= fuzzyToleranceThreshold &&
-                   postcodeFuzzyResult[0][0] >= fuzzyToleranceThreshold;
-
-    //console.log(addressline1FuzzyResult[0][0]);
+    const matchFound = addressline1FuzzyResult[0][0] >= fuzzyToleranceThresholdLower &&
+                       cityFuzzyResult[0][0] >= fuzzyToleranceThresholdUpper &&
+                       postcodeFuzzyResult[0][0] >= fuzzyToleranceThresholdUpper;
 
     return { matchFound,
              tolerance: addressline1FuzzyResult[0][0],
@@ -95,7 +93,7 @@ exports.matchAddressToVirginLookups = function(address, virginAddresses) {
 
         // Exact Match
         if (exactAddressMatch(address, virginAddresses[itr])) {
-            
+
             match = {matchFound: true,
                     tolerance: 1,
                     address};
