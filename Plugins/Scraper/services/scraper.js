@@ -6,7 +6,7 @@
 
 const Horseman = require('node-horseman');
 
-module.exports = function(postcode, address) {
+module.exports.scrape = function(postcode, address) {
 
     // new instance per request
     const horseman = new Horseman({loadImages: false});

@@ -19,7 +19,7 @@ exports.isVirginAvailable = function (address = {}) {
                 return Promise.reject({result,
                     virginAddresses: virginAddresses.map(address => virginAddressLookup.convertAddressToVirginString(address))});
             })
-            .then(resultString => scraper(resultString.postcode, resultString.address),
+            .then(resultString => scraper.scrape(resultString.postcode, resultString.address),
                   potentialMatchedAddresses => Promise.reject(potentialMatchedAddresses))
             .catch(err => Promise.reject(err));
     
@@ -27,5 +27,5 @@ exports.isVirginAvailable = function (address = {}) {
 };
 
 exports.runScraper = function (virginPostcode, virginAddressString) {
-    return scraper(virginPostcode, virginAddressString);
+    return scraper.scrape(virginPostcode, virginAddressString);
 };
