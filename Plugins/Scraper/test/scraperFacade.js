@@ -66,15 +66,14 @@ describe('isVirginAvailable', function () {
     });
 
     it('should return isVirginAvailable false - unable to format address', function(done) {
-        this.timeout(10000);
         sandbox.stub(virginAddressLookup, 'formatAddressLikeVirgin', function() {
-            return {addressLine1: "dfhg",
-                    city: "fgh",
-                    postcode: "dfghdfgh"};
+            return {addressLine1: "",
+                    city: "",
+                    postcode: ""};
         });
-
+        
         scraperFacade.isVirginAvailable(mockPayload)
-            .then(function(result) {
+            .catch(function(result) {
                 expect(result).to.equal(false);
                 done();
             });

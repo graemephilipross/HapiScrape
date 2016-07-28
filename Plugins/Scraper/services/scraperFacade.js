@@ -21,7 +21,7 @@ exports.isVirginAvailable = function (address = {}) {
             })
             .then(resultString => scraper.scrape(resultString.postcode, resultString.address),
                   potentialMatchedAddresses => Promise.reject(potentialMatchedAddresses))
-            .catch(err => Promise.reject(err));
+            .catch(err => Promise.reject(false));
     
     return scrapeTask;
 };

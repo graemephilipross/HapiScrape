@@ -75,6 +75,12 @@ const fuzzyAddressMatch = function(address, virginAddress) {
     const postcodeFuzzy = fuzzySet([virginAddress.postcode]);
     const postcodeFuzzyResult = postcodeFuzzy.get(address.postcode);
 
+    if (addressline1FuzzyResult === null ||
+        cityFuzzyResult === null ||
+        postcodeFuzzyResult === null) {
+        return {};
+    }
+
     const matchFound = addressline1FuzzyResult[0][0] >= fuzzyToleranceThresholdLower &&
                        cityFuzzyResult[0][0] >= fuzzyToleranceThresholdUpper &&
                        postcodeFuzzyResult[0][0] >= fuzzyToleranceThresholdUpper;
