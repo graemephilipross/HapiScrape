@@ -11,3 +11,9 @@ npm test
 debug tests:
 mocha ./Plugins/Scraper/test/scraperFacade.js --debug-brk
 'attach' debug process in vs code
+
+Localhost SSL proxy
+
+concurrently run
+local-ssl-proxy --source 3001 --target 3000
+npm start
