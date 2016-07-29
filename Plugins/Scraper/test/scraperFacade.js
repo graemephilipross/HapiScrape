@@ -74,7 +74,7 @@ describe('isVirginAvailable', function () {
         
         scraperFacade.isVirginAvailable(mockPayload)
             .catch(function(result) {
-                expect(result).to.equal(false);
+                expect(result.virginAddresses).to.have.lengthOf(0);
                 done();
             });
 
