@@ -2,7 +2,7 @@
   "server": {},
   "connections": [
     {
-      "port": 3000,
+      "port": 3030,
       "labels": ["api"],
       "routes": {
         "cors": true
