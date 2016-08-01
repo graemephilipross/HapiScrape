@@ -80,6 +80,54 @@ describe('isVirginAvailable', function () {
 
     });
 
+    it('should return isVirginAvailable false - invalid postcode', function(done) {
+
+        sandbox.stub(virginAddressLookup, 'formatAddressLikeVirgin', function() {
+            return {addressLine1: "203 ADDYCOMBE TERRACE",
+                city: "NEWCASTLE UPON TYNE",
+                postcode: "NE1111"};
+        });
+
+        scraperFacade.isVirginAvailable(mockPayload)
+            .catch(function(result) {
+                expect(result.virginAddresses).to.have.lengthOf(0);
+                done();
+            });
+
+    });
+
+    it('should return isVirginAvailable false - invalid postcode', function(done) {
+
+        sandbox.stub(virginAddressLookup, 'formatAddressLikeVirgin', function() {
+            return {addressLine1: "8 BROCKHAMPTON CLOSE",
+                city: "BOLDON",
+                postcode: "NE359HD"};
+        });
+
+        scraperFacade.isVirginAvailable(mockPayload)
+            .catch(function(result) {
+                expect(result.virginAddresses).to.not.be.empty;
+                done();
+            });
+
+    });
+
+    it('should return isVirginAvailable false - undefined inputs throw error', function(done) {
+
+        sandbox.stub(virginAddressLookup, 'formatAddressLikeVirgin', function() {
+            return {addressLine1: undefined,
+                city: undefined,
+                postcode: undefined};
+        });
+
+        scraperFacade.isVirginAvailable(mockPayload)
+            .catch(function(result) {
+                expect(result.data).to.be.undefined;
+                done();
+            });
+
+    });
+
 });
 
 
