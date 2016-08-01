@@ -80,7 +80,7 @@ describe('isVirginAvailable', function () {
 
     });
 
-    it('should return isVirginAvailable false - invalid postcode', function(done) {
+    it('should return isVirginAvailable false - invalid uk postcode', function(done) {
 
         sandbox.stub(virginAddressLookup, 'formatAddressLikeVirgin', function() {
             return {addressLine1: "203 ADDYCOMBE TERRACE",
@@ -96,7 +96,7 @@ describe('isVirginAvailable', function () {
 
     });
 
-    it('should return isVirginAvailable false - invalid postcode', function(done) {
+    it('should return isVirginAvailable false - invalid virgin postcode', function(done) {
 
         sandbox.stub(virginAddressLookup, 'formatAddressLikeVirgin', function() {
             return {addressLine1: "8 BROCKHAMPTON CLOSE",
