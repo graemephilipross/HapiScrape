@@ -1,5 +1,6 @@
 Node version 6 required
 
+npm install forever -g
 npm install
 
 running on port :3000
