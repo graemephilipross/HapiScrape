@@ -42,4 +42,38 @@ exports.registerRoutes = function(server, option) {
         }
     });
 
+    server.route({
+        method: 'GET',
+        path: '/virginAvailabilityAllYours',
+        handler: {
+            virginAvailabilityAllYours: {}
+        },
+        config: {
+            validate: {
+                query: {
+                    postcode: scraperValidation.CheckQueryParamRequired,
+                    addressLine1: scraperValidation.CheckQueryParamRequired,
+                    addressLine2: scraperValidation.CheckQueryParam,
+                    city: scraperValidation.CheckQueryParamRequired
+                }
+            }
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/virginAvailabilityAllYoursFormattedAddress',
+        handler: {
+            virginAvailabilityAllYoursFormattedAddress: {}
+        },
+        config: {
+            validate: {
+                query: {
+                    postcode: scraperValidation.CheckQueryParamRequired,
+                    address: scraperValidation.CheckQueryParamRequired
+                }
+            }
+        }
+    });
+
 };

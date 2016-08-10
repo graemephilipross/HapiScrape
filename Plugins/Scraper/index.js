@@ -10,6 +10,8 @@ const handler = require('./handler');
 exports.register = function (server, options, next) {
     server.handler('virginAvailability', () => handler.virginAvailability);
     server.handler('virginAvailabilityFormattedAddress', () => handler.virginAvailabilityFormattedAddress);
+    server.handler('virginAvailabilityAllYours', () => handler.virginAvailabilityAllYours);
+    server.handler('virginAvailabilityAllYoursFormattedAddress', () => handler.virginAvailabilityAllYoursFormattedAddress);
     routes.registerRoutes(server, options);
     next();
 };

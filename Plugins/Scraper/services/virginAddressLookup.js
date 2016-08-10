@@ -66,7 +66,7 @@ const exactAddressMatch = function(address, virginAddress) {
 
 const fuzzyAddressMatch = function(address, virginAddress) {
 
-    const fuzzyToleranceThresholdLower = 0.95;
+    const fuzzyToleranceThresholdLower = 0.98;
     const fuzzyToleranceThresholdUpper = 1;
     const addressline1Fuzzy = fuzzySet([virginAddress.addressLine1]);
     const addressline1FuzzyResult = addressline1Fuzzy.get(address.addressLine1);
@@ -99,7 +99,6 @@ exports.matchAddressToVirginLookups = function(address, virginAddresses) {
 
         // Exact Match
         if (exactAddressMatch(address, virginAddresses[itr])) {
-
             match = {matchFound: true,
                     tolerance: 1,
                     address};
