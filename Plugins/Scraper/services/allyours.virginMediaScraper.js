@@ -84,9 +84,42 @@ module.exports.scrape = function(postcode, address) {
                                     virginData.crewSizeRequired = $(row).find('td:nth-child(2)').text();
                                 }
 
+                                // Wayleave required
+                                if ($(row).find('td:first-child').text().toUpperCase().indexOf('WAYLEAVE REQUIRED') > -1) {
+                                    virginData.wayleaveRequired = $(row).find('td:nth-child(2)').text().toUpperCase().indexOf('YES') > -1;
+                                }
+
                             });
 
-                            return virginData;
+                            var premiseInfo = {};
+
+                            // Install Type & Estimate
+                            if (virginData.quickStartBBDTVEligibility) {
+                                premiseInfo.InstallEstimate = '2 - 3 Days';
+                                premiseInfo.InstallType = 'Quick Start';
+                            } else if (virginData.crewSizeRequired) {
+                                if (virginData.crewSizeRequired > 1) {
+                                    premiseInfo.InstallEstimate = '2 - 4 Weeks';
+                                    premiseInfo.InstallType = virginData.crewSizeRequired + ' man install';
+                                } else {
+                                    premiseInfo.InstallEstimate = '7 - 10 Days';
+                                    premiseInfo.InstallType = '1 man install';
+                                }
+                            } else {
+                                premiseInfo.InstallEstimate = 'Unknown';
+                                premiseInfo.InstallType = 'Unknown';
+                            }
+
+                            // Property Status
+                            if (virginData.addressActive) {
+                                premiseInfo.PropertyStatus = 'Gone Away';
+                            } else if (virginData.wayleaveRequired) {
+                                premiseInfo.PropertyStatus = 'Wayleave';
+                            } else {
+                                premiseInfo.PropertyStatus = 'None';
+                            }
+
+                            return premiseInfo;
 
                         }).then(function(result) {
                             isVirginAvailable = true;
