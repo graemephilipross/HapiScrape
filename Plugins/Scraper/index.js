@@ -12,6 +12,7 @@ exports.register = function (server, options, next) {
     server.handler('virginAvailabilityFormattedAddress', () => handler.virginAvailabilityFormattedAddress);
     server.handler('virginAvailabilityAllYours', () => handler.virginAvailabilityAllYours);
     server.handler('virginAvailabilityAllYoursFormattedAddress', () => handler.virginAvailabilityAllYoursFormattedAddress);
+    server.handler('virginAddresses', () => handler.virginAddresses);
     routes.registerRoutes(server, options);
     next();
 };

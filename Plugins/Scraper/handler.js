@@ -5,6 +5,7 @@
 "use strict";
 
 const scraperFacade = require('./services/scraperFacade');
+const virginAddressesService = require('./services/virginAddresses');
 
 exports.virginAvailability = function (request, reply) {
 
@@ -65,4 +66,14 @@ exports.virginAvailabilityAllYoursFormattedAddress = function (request, reply) {
            .catch(result => reply({isVirginAvailable: false,
                                    virginData: result.virginData}).code(200));
 
+};
+
+
+exports.virginAddresses = function (request, reply) {
+    
+    const postcode = request.query.postcode;
+
+    virginAddressesService.virginAddresses(postcode)
+            .then(result => reply({addresses: result}).code(200))
+            .catch(() => reply({addresses: []}).code(200));
 };
