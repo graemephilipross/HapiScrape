@@ -43,11 +43,18 @@ exports.postcodeLookup = function (postcode) {
             }
 
             if (payload.address) {
-                const virginAddresses = payload.address.map(address => new VirginAddress({
-                    addressLine1: `${address.buildingNumber} ${address.street}`,
-                    city: `${address.townOrCity}`,
-                    postcode: `${address.postcode}`
-                }));
+                const virginAddresses = payload.address.map(address => {
+                    
+                    const addressLine1 = address.sao
+                    ? `${address.sao}, ${address.pao} ${address.street}`
+                    : `${address.pao} ${address.street}`;
+
+                    return new VirginAddress({
+                        addressLine1,
+                        city: `${address.townOrCity}`,
+                        postcode: `${address.postcode}`
+                    });
+                });
 
                 resolve(virginAddresses);
             } else {
