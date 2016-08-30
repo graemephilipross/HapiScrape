@@ -62,9 +62,9 @@ exports.virginAvailabilityAllYoursFormattedAddress = function (request, reply) {
 
     scraperFacade.runScraperAllYours(postcode, address)
            .then(result => reply({isVirginAvailable: result.isVirginAvailable,
-                                  virginData: result.virginData}).code(200))
+                                  data: result}).code(200))
            .catch(result => reply({isVirginAvailable: false,
-                                   virginData: result.virginData}).code(200));
+                                   data: result}).code(200));
 
 };
 
