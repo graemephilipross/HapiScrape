@@ -64,6 +64,11 @@ module.exports.scrape = function(postcode, address) {
                             
                             rows.each(function(index, row) {
 
+                                // Site ID
+                                if ($(row).find('td:first-child').text().toUpperCase().indexOf('SITE ID') > -1) {
+                                    virginData.siteID = $(row).find('td:nth-child(2)').text();
+                                }
+
                                 // Quick Start BB/DTV Eligibility
                                 if ($(row).find('td:first-child').text().toUpperCase().indexOf('QUICK START BB/DTV ELIGIBILITY') > -1) {
                                     virginData.quickStartBBDTVEligibility = $(row).find('td:nth-child(2)').text().toUpperCase().indexOf('YES') > -1;
@@ -92,6 +97,11 @@ module.exports.scrape = function(postcode, address) {
                             });
 
                             var premiseInfo = {};
+
+                            // Site ID
+                            if (virginData.siteID) {
+                                premiseInfo.SiteID = virginData.siteID;
+                            }
 
                             // Install Type & Estimate
                             if (virginData.quickStartBBDTVEligibility) {
