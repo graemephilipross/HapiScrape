@@ -8,6 +8,7 @@ const Wreck = require('wreck');
 const VirginAddress = require('../models/virginAddress');
 const fuzzySet = require('fuzzyset.js');
 const scraperValidation = require('./scraperValidation');
+const allYoursPostcode = require('./allyours.postcodeScraper');
 
 exports.formatAddressLikeVirgin = function(address = {}) {
     const { addressLine1 = '', addressLine2 = '', city = '', postcode = '' } = address;
@@ -64,6 +65,37 @@ exports.postcodeLookup = function (postcode) {
     });
 };
 
+exports.postcodeLookupAllYours = function (postcode) {
+
+    return new Promise(function(resolve, reject) {
+
+        allYoursPostcode.scrapePostcodes(postcode)
+        .then(result => {
+
+            // process addr string as virgin address obj
+            const virginAddresses = result.addresses.map(address => {
+                const addr = address.split(',');
+                const postcode = addr.pop().replace(/ /g,'');
+                const city = addr.pop().trim();
+                const addressLine1 = addr.join(',').trim();
+
+                return new VirginAddress({
+                    addressLine1,
+                    city,
+                    postcode
+                });
+
+            });
+
+            resolve(virginAddresses);
+        })
+        .catch(addresses => {
+            reject(addresses);
+        });
+
+    });
+};
+
 const exactAddressMatch = function(address, virginAddress) {
 
     return address.addressLine1 === virginAddress.addressLine1 &&
@@ -101,7 +133,7 @@ exports.matchAddressToVirginLookups = function(address, virginAddresses) {
     
     let match = {matchFound: false,
                  tolerance: 0 };
-
+    
     for (let itr = 0; itr < virginAddresses.length; itr++) {
 
         // Exact Match

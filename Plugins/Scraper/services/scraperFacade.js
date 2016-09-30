@@ -4,22 +4,23 @@
 const virginAddressLookup = require('./virginAddressLookup');
 const scraper = require('./scraper');
 const scraperAllYours = require('./allyours.virginMediaScraper');
+const virginAddresses = require('./virginAddresses');
 
 const virginAdderssFormatAndLookup = function(address) {
 
     const formattedAddress = virginAddressLookup.formatAddressLikeVirgin(address);
 
-    return virginAddressLookup.postcodeLookup(formattedAddress.postcode)
-            .then(virginAddresses => {
-                const result = virginAddressLookup.matchAddressToVirginLookups(formattedAddress, virginAddresses);
+    return virginAddresses.virginAddressesAllYours(formattedAddress.postcode)
+        .then(virginAddresses => {
+            const result = virginAddressLookup.matchAddressToVirginLookups(formattedAddress, virginAddresses);
 
-                if (result.matchFound) {
-                    return virginAddressLookup.convertAddressToVirginString(result.address);
-                }
-                // reject list of formatted virgin string addresses
-                return Promise.reject({result,
-                    virginAddresses: virginAddresses.map(address => virginAddressLookup.convertAddressToVirginString(address))});
-            });
+            if (result.matchFound) {
+                return virginAddressLookup.convertAddressToVirginString(result.address);
+            }
+            // reject list of formatted virgin string addresses
+            return Promise.reject({result,
+                virginAddresses: virginAddresses.map(address => virginAddressLookup.convertAddressToVirginString(address))});
+        });
 };
 
 exports.isVirginAvailable = function (address = {}) {

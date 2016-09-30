@@ -91,4 +91,19 @@ exports.registerRoutes = function(server, option) {
         }
     });
 
+    server.route({
+        method: 'GET',
+        path: '/virginAddressesAllYours',
+        handler: {
+            virginAddressesAllYours: {}
+        },
+        config: {
+            validate: {
+                query: {
+                    postcode: scraperValidation.CheckQueryParamRequired
+                }
+            }
+        }
+    });
+
 };

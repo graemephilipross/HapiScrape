@@ -68,12 +68,20 @@ exports.virginAvailabilityAllYoursFormattedAddress = function (request, reply) {
 
 };
 
-
 exports.virginAddresses = function (request, reply) {
     
     const postcode = request.query.postcode;
 
     virginAddressesService.virginAddresses(postcode)
+            .then(result => reply({addresses: result}).code(200))
+            .catch(() => reply({addresses: []}).code(200));
+};
+
+exports.virginAddressesAllYours = function (request, reply) {
+
+    const postcode = request.query.postcode;
+
+    virginAddressesService.virginAddressesAllYours(postcode)
             .then(result => reply({addresses: result}).code(200))
             .catch(() => reply({addresses: []}).code(200));
 };
