@@ -40,7 +40,7 @@ exports.postcodeLookup = function (postcode) {
 
         Wreck.get(url, {json: true}, function (err, res, payload) {
             if (err || res.statusCode !== 200) {
-                reject();
+                return reject();
             }
 
             if (payload.address) {

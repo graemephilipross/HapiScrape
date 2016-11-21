@@ -18,6 +18,15 @@
           "prefix": "/api"
         }
       }
+    },
+    {
+      "plugin": {
+        "register": "./CouncilTax/index",
+        "select": ["api"],
+        "routes": {
+          "prefix": "/api"
+        }
+      }
     }
   ]
 }
