@@ -4,42 +4,50 @@
 
 "use strict";
 
-const Wreck = require('wreck');
+const Horseman = require('node-horseman');
 
 exports.scrape = function (postcode) {
 
-    const getData = new Promise(function(resolve, reject) {
-        const url = `https://www.gov.uk/find-local-council/`;
+     // new instance per request
+    const horseman = new Horseman({loadImages: false});
 
-        const payload = {
-            postcode
-        };
+    return new Promise(function (resolve, reject) {
 
-        const options = {
-            payload: JSON.stringify(payload),
-            redirects: 2
-        };
+        horseman
+            .userAgent('Mozilla/5.0 (Windows NT x.y; rv:10.0) Gecko/20100101 Firefox/10.0')
+            .open('https://www.gov.uk/find-local-council')
+            .type('input[name="postcode"]', postcode)
+            .click('button[type="submit"]')
+            .waitForNextPage()
+            .exists('[data-track-action="postcodeErrorShown:invalidPostcodeFormat"]').then(function(result) {
+                if (result) {
+                    throw new Error('invalid postcode');
+                }
+                return true;
+            })
+            .evaluate(function() {
 
-        Wreck.post(url, options, (err, res, payload) => {
-            Wreck.read(res, null, (error, body) => {
-                console.log(body.toString());
+                // es6 syntax doesnt work inside horseman functions
+
+                const councilInfo = {};
+
+                if ($('.district-result').length) {
+                    councilInfo.name = $('.district-result > p:first').text();
+                    councilInfo.website = $('.district-result a').text();
+                    councilInfo.type = "district";
+                } else {
+                    councilInfo.name = $('.unitary-result > p:first').text();
+                    councilInfo.website = $('.unitary-result a').text();
+                    councilInfo.type = "county";
+                }
+
+                return councilInfo;
+            })
+            .then(function(councilTaxInfo) {
+                return horseman.close().then(_ => resolve({councilTaxInfo}));
+            })
+            .catch(function(error) {
+                return horseman.close().then(_ => reject({councilTaxInfo: {}}));
             });
-            
-            if (err) {
-                return reject(err);
-            }
-            if (res.statusCode !== 302) {
-                return reject(res);
-            }
-            return resolve(payload.toString());
-        });
-    });
-
-    return getData.then(data => {
-        console.log(data);
-        return data;
-    }).catch(err => {
-        console.log(err);
-        return err;
     });
 };

@@ -10,6 +10,6 @@ exports.findLocalCouncil = function (request, reply) {
 
     const postcode = request.params.postcode;
 
-    govUKScraper.scrape(postcode).then(data => reply({data}).code(200))
-                                .catch(error => reply({error}).code(500));
+    govUKScraper.scrape(postcode).then(result => reply({result}).code(200))
+                                .catch(result => reply({result}).code(500));
 };
