@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec Plugins/Scraper/test/**/*.js",
-    "start": "node index.js"
+    "test": "./node_modules/.bin/mocha --reporter spec Test/Scraper/*.js",
+    "start": "node index.js",
+    "gulp-test": "gulp test"
   },
   "author": "Graeme Ross",
   "license": "ISC",
@@ -17,7 +18,9 @@
     "joi-postcode": "^3.0.0",
     "node-horseman": "^3.1.1",
     "phantomjs-prebuilt": "^2.1.7",
-    "wreck": "^8.0.0"
+    "wreck": "^8.0.0",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^2.2.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

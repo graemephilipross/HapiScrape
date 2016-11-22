@@ -9,8 +9,8 @@ prefix: /api
 Testing:
 npm test
 
-debug tests:
-mocha ./Plugins/Scraper/test/scraperFacade.js --debug-brk
+debug Virgin Media Scraper tests:
+mocha ./Tests/Scraper/scraperFacade.js --debug-brk
 'attach' debug process in vs code
 
 Localhost SSL proxy

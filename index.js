@@ -1,20 +1,4 @@
 "use strict";
 
-const Glue = require('glue');
-const manifest = require('./Config/glue.manifest.json');
-const options = {
-    relativeTo: __dirname + '/Plugins'
-};
-
-Glue.compose(manifest, options, function (err, server) {
-    server.start(function (err) {
-
-        // API running on port 3000
-
-        if (err) {
-            throw err;
-        }
-        console.log('Server running at:', server.info.uri);
-
-    });
-});
+// run server
+require('./server')();
