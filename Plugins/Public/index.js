@@ -10,7 +10,8 @@ const routes = [{
         directory: {
             path: `${__dirname}/../../Public`,
             listing: true,
-            index: true
+            index: true,
+            showHidden: true
         }
     }
 }];
