@@ -10,6 +10,7 @@
     }
   ],
   "registrations": [
+    { "plugin": { "register": "inert" } },
     {
       "plugin": {
         "register": "./Scraper/index",
