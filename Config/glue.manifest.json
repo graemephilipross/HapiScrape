@@ -11,6 +11,7 @@
   ],
   "registrations": [
     { "plugin": { "register": "inert" } },
+    { "plugin": { "register": "./Public/index" } },
     {
       "plugin": {
         "register": "./Scraper/index",
