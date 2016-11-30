@@ -17,7 +17,7 @@
     "joi": "^9.0.1",
     "joi-postcode": "^3.0.0",
     "node-horseman": "^3.1.1",
-    "phantomjs-prebuilt": "^2.1.7",
+    "phantomjs-prebuilt": "2.1.9",
     "wreck": "^8.0.0",
     "gulp": "^3.9.1",
     "gulp-mocha": "^2.2.0",
