@@ -27,8 +27,9 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "concurrently": "^3.3.0",
     "mocha": "^2.5.3",
     "sinon": "^1.17.5",
-    "concurrently": "^3.3.0"
+    "standard": "^10.0.2"
   }
 }

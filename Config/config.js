@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const Confidence = require('confidence');
+const Confidence = require('confidence')
 
 const store = new Confidence.Store({
   redis: {
@@ -14,13 +14,15 @@ const store = new Confidence.Store({
       'port': '6379'
     }
   },
-  cacheEnabled: true
-});
+  cacheEnabled: true,
+  cacheExpiration: 7 * 24 * 60 * 60 * 1000, // -- test with 10000
+  scraperTimeout: 30000
+})
 
 const criteria = {
   env: process.env.NODE_ENV
-};
+}
 
 exports.get = function (key) {
-  return store.get(key, criteria);
-};
+  return store.get(key, criteria)
+}
