@@ -1,7 +1,7 @@
 "use strict";
 
 const Glue = require('glue');
-const manifest = require('./Config/glue.manifest.json');
+const manifest = require('./Config/glue.manifest');
 const options = {
     relativeTo: __dirname + '/Plugins'
 };

@@ -78,10 +78,28 @@ exports.virginAddresses = function (request, reply) {
 };
 
 exports.virginAddressesAllYours = function (request, reply) {
-
+    
     const postcode = request.query.postcode;
 
     virginAddressesService.virginAddressesAllYours(postcode)
             .then(result => reply({addresses: result}).code(200))
             .catch(() => reply({addresses: []}).code(200));
+};
+
+exports.virginAddressesAllYoursCached = server => {
+
+    const hapiServer = server;
+    
+    return function (request, reply) {
+
+        const postcode = request.query.postcode;
+
+        hapiServer.methods.virginAddressesAllYoursCached(postcode, (err, result) => {
+
+            if (err) {
+                return reply(err);
+            }
+            reply({addresses: result}).code(200);
+        });
+    };
 };

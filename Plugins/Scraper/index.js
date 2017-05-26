@@ -6,14 +6,44 @@
 
 const routes = require('./routes');
 const handler = require('./handler');
+const virginAddressesService = require('./services/virginAddresses');
+const config = require('../../Config/app');
+
+const internals = {};
+
+internals.handler = {
+    apply (target, ctx, args) {
+        // get second next callback param
+        const [, next] = args
+        return target(...args)
+        .then(addresses => next(null, addresses))
+        .catch(err => next(err));
+    }
+};
 
 exports.register = function (server, options, next) {
+
+    const proxy = new Proxy(virginAddressesService.virginAddressesAllYours, internals.handler);
+
+    server.method('virginAddressesAllYoursCached', proxy, {
+        cache: {
+            cache: 'redisCache',
+            expiresIn: 10000/* 7 * 24 * 60 * 60 * 1000*/,
+            generateTimeout: 30 * 1000
+        }
+    });
+
     server.handler('virginAvailability', () => handler.virginAvailability);
     server.handler('virginAvailabilityFormattedAddress', () => handler.virginAvailabilityFormattedAddress);
     server.handler('virginAvailabilityAllYours', () => handler.virginAvailabilityAllYours);
     server.handler('virginAvailabilityAllYoursFormattedAddress', () => handler.virginAvailabilityAllYoursFormattedAddress);
     server.handler('virginAddresses', () => handler.virginAddresses);
-    server.handler('virginAddressesAllYours', () => handler.virginAddressesAllYours);
+    if (config.cacheEnabled) {
+        server.handler('virginAddressesAllYours', () => handler.virginAddressesAllYoursCached(server));
+    } else {
+        server.handler('virginAddressesAllYours', () => handler.virginAddressesAllYours);
+    }
+    
     routes.registerRoutes(server, options);
     next();
 };

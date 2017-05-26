@@ -9,7 +9,10 @@ const Horseman = require('node-horseman');
 module.exports.scrape = function(postcode, address) {
 
     // new instance per request
-    const horseman = new Horseman({loadImages: false});
+    const horseman = new Horseman({
+        loadImages: false,
+        timeout: 30000
+    });
 
     return new Promise(function (resolve, reject) {
 

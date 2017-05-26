@@ -1,5 +1,17 @@
-{
-  "server": {},
+const config = require('./app');
+
+module.exports = {
+  "server": {
+    "cache": [
+      {
+        "name": "redisCache",
+        "engine": "catbox-redis",
+        "host": config.redis.host,
+        "port": config.redis.port,
+        "partition": "virginscraper"
+      }
+    ]
+  },
   "connections": [
     {
       "port": 3030,
