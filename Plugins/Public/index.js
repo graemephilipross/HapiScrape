@@ -1,27 +1,27 @@
-'use strict';
+'use strict'
 
 const routes = [{
-    method: 'GET',
-    path: '/{filename*}',
-    config: {
-        auth: false
-    },
-    handler: {
-        directory: {
-            path: `${__dirname}/../../Public`,
-            listing: true,
-            index: true,
-            showHidden: true
-        }
+  method: 'GET',
+  path: '/{filename*}',
+  config: {
+    auth: false
+  },
+  handler: {
+    directory: {
+      path: `${__dirname}/../../Public`,
+      listing: true,
+      index: true,
+      showHidden: true
     }
-}];
+  }
+}]
 
 exports.register = (server, options, next) => {
-    server.route(routes);
+  server.route(routes)
 
-    next();
-};
+  next()
+}
 
 exports.register.attributes = {
-    pkg: require('./package.json')
-};
+  pkg: require('./package.json')
+}

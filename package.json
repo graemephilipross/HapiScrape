@@ -6,11 +6,13 @@
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec Test/Scraper/*.js",
     "start": "node index.js",
-    "gulp-test": "gulp test"
+    "gulp-test": "gulp test",
+    "dev-proxy": "concurrently --kill-others \"local-ssl-proxy --source 3001 --target 3000\" \"npm start\""
   },
   "author": "Graeme Ross",
   "license": "ISC",
   "dependencies": {
+    "confidence": "^3.0.2",
     "fuzzyset.js": "0.0.1",
     "glue": "^3.3.0",
     "hapi": "^13.5.0",
@@ -25,7 +27,9 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "concurrently": "^3.3.0",
     "mocha": "^2.5.3",
-    "sinon": "^1.17.5"
+    "sinon": "^1.17.5",
+    "standard": "^10.0.2"
   }
 }
