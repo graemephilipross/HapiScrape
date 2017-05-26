@@ -1,0 +1,5 @@
+{
+	"name": "public",
+	"description": "Serves static files in the public folder",
+	"version": "1.0.0"
+}

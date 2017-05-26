@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 // run server
-require('./server')();
+require('./server')()
