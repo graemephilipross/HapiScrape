@@ -23,7 +23,8 @@
     "wreck": "^8.0.0",
     "gulp": "^3.9.1",
     "gulp-mocha": "^2.2.0",
-    "inert": "^4.0.2"
+    "inert": "^4.0.2",
+    "catbox-redis": "3.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

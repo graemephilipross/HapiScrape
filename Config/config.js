@@ -6,7 +6,7 @@ const store = new Confidence.Store({
   redis: {
     $filter: 'env',
     production: {
-      'host': '192.168.1.15',
+      'host': '139.162.240.78',
       'port': '6379'
     },
     $default: {
