@@ -26,6 +26,29 @@ exports.partners = function (request, reply) {
   })
 }
 
+exports.partnersCached = function (server) {
+  const hapiServer = server
+
+  return function (request, reply) {
+    const postcode = request.query.postcode
+    const addressLine1 = request.query.addressLine1
+    const addressLine2 = request.query.addressLine2
+    const city = request.query.city
+
+    const address = {addressLine1,
+      addressLine2,
+      city,
+      postcode}
+
+    hapiServer.methods.partnersCached(address, (err, result) => {
+      if (err === null) {
+        return reply({virginAvailable: result}).code(200)
+      }
+      return reply({virginAvailable: false}).code(200)
+    })
+  }
+}
+
 exports.allYours = function (request, reply) {
   const postcode = request.query.postcode
   const addressLine1 = request.query.addressLine1
@@ -52,6 +75,32 @@ exports.allYours = function (request, reply) {
   })
 }
 
+exports.allYoursCached = function (server) {
+  const hapiServer = server
+
+  return function (request, reply) {
+    const postcode = request.query.postcode
+    const addressLine1 = request.query.addressLine1
+    const addressLine2 = request.query.addressLine2
+    const city = request.query.city
+
+    const address = {addressLine1,
+      addressLine2,
+      city,
+      postcode}
+
+    hapiServer.methods.allYoursCached(address, (err, result) => {
+      if (err === null) {
+        return reply(result).code(200)
+      }
+      return reply(
+        err.message || 
+        `Something went wrong`
+      ).code(500)
+    })
+  }
+}
+
 exports.addresses = function (request, reply) {
   const postcode = request.query.postcode
   const address = {postcode}
@@ -69,4 +118,23 @@ exports.addresses = function (request, reply) {
       `Something went wrong`
     ).code(500)
   })
+}
+
+exports.addressesCached = function (server) {
+  const hapiServer = server
+
+  return function (request, reply) {
+    const postcode = request.query.postcode
+    const address = {postcode}
+
+    hapiServer.methods.addressesCached(address, (err, result) => {
+      if (err === null) {
+        return reply(result).code(200)
+      }
+      return reply(
+        err.message || 
+        `Something went wrong`
+      ).code(500)
+    })
+  }
 }

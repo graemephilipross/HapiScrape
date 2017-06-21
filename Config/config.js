@@ -15,7 +15,7 @@ const store = new Confidence.Store({
     }
   },
   cacheEnabled: true,
-  cacheExpiration: 7 * 24 * 60 * 60 * 1000, // -- test with 10000
+  cacheExpiration: 30 * 7 * 24 * 60 * 60 * 1000, // -- test with 10000 -- currently 1 month
   scraperTimeout: 30000
 })
 

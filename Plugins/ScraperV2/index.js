@@ -1,5 +1,5 @@
 /**
- * Created by graemeross on 21/07/2016.
+ * Created by graemeross on 21/06/2017.
  */
 
 'use strict'
@@ -7,39 +7,21 @@
 const routes = require('./routes')
 const handler = require('./handler')
 const config = require('../../Config/app')
-
-const internals = {}
-
-internals.handler = {
-  apply (target, ctx, args) {
-        // get second next callback param
-    const [, next] = args
-    return target(...args)
-        .then(addresses => next(null, addresses))
-        .catch(err => next(err))
-  }
-}
+const services = require('./services/scraperFacadesCached')
 
 exports.register = function (server, options, next) {
-  /*const proxy = new Proxy(virginAddressesService.virginAddressesAllYours, internals.handler)
 
-  server.method('virginAddressesAllYoursCached', proxy, {
-    cache: {
-      cache: 'redisCache',
-      expiresIn: config.cacheExpiration,
-      generateTimeout: config.scraperTimeout * 2
-    }
-  })*/
+  services.registerFacadesCached(server)
 
-  server.handler('partners', () => handler.partners)
-  server.handler('allYours', () => handler.allYours)
-  server.handler('addresses', () => handler.addresses)
-  
-  /*if (config.cacheEnabled) {
-    server.handler('virginAddressesAllYours', () => handler.virginAddressesAllYoursCached(server))
+  if (config.cacheEnabled) {
+    server.handler('partners', () => handler.partnersCached(server))
+    server.handler('allYours', () => handler.allYoursCached(server))
+    server.handler('addresses', () => handler.addressesCached(server))
   } else {
-    server.handler('virginAddressesAllYours', () => handler.virginAddressesAllYours)
-  }*/
+    server.handler('partners', () => handler.partners)
+    server.handler('allYours', () => handler.allYours)
+    server.handler('addresses', () => handler.addresses)
+  }
 
   routes.registerRoutes(server, options)
   next()
