@@ -35,6 +35,15 @@ module.exports = {
     },
     {
       'plugin': {
+        'register': './ScraperV2/index',
+        'select': ['api'],
+        'routes': {
+          'prefix': '/api'
+        }
+      }
+    },
+    {
+      'plugin': {
         'register': './CouncilTax/index',
         'select': ['api'],
         'routes': {
