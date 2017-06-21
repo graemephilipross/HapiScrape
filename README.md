@@ -1,5 +1,6 @@
 # Virgin Media Scraper
-Scrapes Virgin Media web portals for availability data and service information for a given address or postcode: 
+Scrapes Virgin Media web portals for availability data and service information for a given address or postcode:
+
 [Virgin Retailer Store](https://allyours.virginmedia.com/retailerstore/)
 
 ## Install and Launch
@@ -41,6 +42,7 @@ Default scraper timeout:
 # Get Virgin Addresses
 
 Get an array of Virgin address objects matching the string format used in [allyours.virginmedia.com/retailerstore/](https://allyours.virginmedia.com/retailerstore/)
+
 `'Address Line 1, City, Postcode'`
 
 **URL** : `/api/allyours/addresses?postcode=`
@@ -94,6 +96,7 @@ Postcode does not have virgin availability:
 # Get Virgin Availability Info
 
 Get virgin availability information and service data from [allyours.virginmedia.com/retailerstore/](https://allyours.virginmedia.com/retailerstore/)
+
 Returns `Install Type Estimate`, `Install Estimate`, `Property Status` and `Site ID` if Virgin is available.
 
 **URL** : `/api/allyours?addressLine1=&addressLine2=&city=&postcode=`
