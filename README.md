@@ -27,7 +27,7 @@ Cache defaults:
 * `cacheExpiration: 30 * 7 * 24 * 60 * 60 * 1000 // ms 1 month`
 
 Production Redis Env:
-* `host: 139.162.240.78`
+* `host: `
 * `port: 6379`
 
 Development Redis Env:
