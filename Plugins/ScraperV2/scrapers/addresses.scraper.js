@@ -30,7 +30,6 @@ module.exports.scrape = function (postcode) {
         return true
       })
       .evaluate(function () {
-          // es6 syntax doesnt work inside horseman functions
         const addresses = []
 
         $('select[name="chosenAddress"] option').each(function (index, el) {
@@ -47,7 +46,13 @@ module.exports.scrape = function (postcode) {
         return horseman.close().then(_ => resolve({addresses}))
       })
       .catch(function (error) {
-        return horseman.close().then(_ => reject({addresses: []}))
+        return horseman.close().then(_ => {
+          if (error.message === 'no addresses found' ||
+              error.message === 'invalid postcode') {
+                reject({addresses: []})
+          }
+          reject(error)
+        })
       })
   })
 }
