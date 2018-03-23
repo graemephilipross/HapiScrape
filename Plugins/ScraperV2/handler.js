@@ -6,6 +6,7 @@
 
 const scraperFacade = require('./services/scraperFacades')
 
+// deprecated
 exports.partners = function (request, reply) {
   const postcode = request.query.postcode
   const addressLine1 = request.query.addressLine1
@@ -26,6 +27,7 @@ exports.partners = function (request, reply) {
   })
 }
 
+// deprecated
 exports.partnersCached = function (server) {
   const hapiServer = server
 
@@ -68,10 +70,9 @@ exports.allYours = function (request, reply) {
     if (err.isVirginAvailable === false) {
        return reply(err).code(200)
     }
-    return reply(
-      err.message || 
-      `Something went wrong`
-    ).code(500)
+    return reply({
+      error: err.message || `Something went wrong`
+    }).code(500)
   })
 }
 
@@ -93,10 +94,9 @@ exports.allYoursCached = function (server) {
       if (err === null) {
         return reply(result).code(200)
       }
-      return reply(
-        err.message || 
-        `Something went wrong`
-      ).code(500)
+      return reply({
+        error: err.message || `Something went wrong`
+      }).code(500)
     })
   }
 }
@@ -113,10 +113,9 @@ exports.addresses = function (request, reply) {
     if (err.addresses) {
        return reply(err).code(200)
     }
-    return reply(
-      err.message || 
-      `Something went wrong`
-    ).code(500)
+    return reply({
+      error: err.message || `Something went wrong`
+    }).code(500)
   })
 }
 
@@ -131,10 +130,9 @@ exports.addressesCached = function (server) {
       if (err === null) {
         return reply(result).code(200)
       }
-      return reply(
-        err.message || 
-        `Something went wrong`
-      ).code(500)
+      return reply({
+        error: err.message || `Something went wrong`
+      }).code(500)
     })
   }
 }

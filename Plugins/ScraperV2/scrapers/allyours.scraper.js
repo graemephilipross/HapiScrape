@@ -133,7 +133,12 @@ module.exports.scrape = function (postcode, address) {
                     virginData: result}))
                 })
       })
-      .catch(error => horseman.close().then(_ => reject({isVirginAvailable,
-        virginData: {}})))
+      .catch(error => horseman.close().then(_ => {
+        if (error.message === 'unable to find address' ||
+            error.message === 'invalid postcode') {
+          reject({isVirginAvailable, virginData: {}}) 
+        }
+        reject(error)
+      }))
   })
 }
